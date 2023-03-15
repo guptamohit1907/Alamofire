@@ -72,12 +72,9 @@ open class JSONParameterEncoder: ParameterEncoder {
         self.encoder = encoder
     }
 
-    open func encode<Parameters: Encodable>(_ parameters: Parameters?,
-                                            into request: URLRequest) throws -> URLRequest {
+    open func encode<Parameters: Encodable>(_ parameters: Parameters?,into request: URLRequest) throws -> URLRequest {
         guard let parameters = parameters else { return request }
-
         var request = request
-
         do {
             let data = try encoder.encode(parameters)
             request.httpBody = data

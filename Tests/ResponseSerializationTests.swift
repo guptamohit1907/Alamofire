@@ -1250,6 +1250,13 @@ final class DataPreprocessorSerializationTests: BaseTestCase {
         XCTAssertTrue(result.isFailure)
         XCTAssertNil(result.success)
         XCTAssertNotNil(result.failure)
+        XCTAssertTrue(result.failure?.asAFError?.isResponseSerializationError == true)
+        if case .responseSerializationFailed(let reason) = result.failure?.asAFError,
+           case .dataPreprocessingFailed = reason {
+            // Expected
+        } else {
+            XCTFail("Error should be AFError.responseSerializationFailed(.dataPreprocessingFailed), got: \(String(describing: result.failure))")
+        }
     }
 
     func testThatStringResponseSerializerProperlyCallsSuccessfulDataPreprocessor() {
@@ -1280,6 +1287,13 @@ final class DataPreprocessorSerializationTests: BaseTestCase {
         XCTAssertTrue(result.isFailure)
         XCTAssertNil(result.success)
         XCTAssertNotNil(result.failure)
+        XCTAssertTrue(result.failure?.asAFError?.isResponseSerializationError == true)
+        if case .responseSerializationFailed(let reason) = result.failure?.asAFError,
+           case .dataPreprocessingFailed = reason {
+            // Expected
+        } else {
+            XCTFail("Error should be AFError.responseSerializationFailed(.dataPreprocessingFailed), got: \(String(describing: result.failure))")
+        }
     }
 
     @available(*, deprecated)
@@ -1312,6 +1326,20 @@ final class DataPreprocessorSerializationTests: BaseTestCase {
         XCTAssertTrue(result.isFailure)
         XCTAssertNil(result.success)
         XCTAssertNotNil(result.failure)
+        XCTAssertTrue(result.failure?.asAFError?.isResponseSerializationError == true)
+        if case .responseSerializationFailed(let reason) = result.failure?.asAFError,
+           case .dataPreprocessingFailed = reason {
+            // Expected
+        } else {
+            XCTFail("Error should be AFError.responseSerializationFailed(.dataPreprocessingFailed), got: \(String(describing: result.failure))")
+        }
+        XCTAssertTrue(result.failure?.asAFError?.isResponseSerializationError == true)
+        if case .responseSerializationFailed(let reason) = result.failure?.asAFError,
+           case .dataPreprocessingFailed = reason {
+            // Expected
+        } else {
+            XCTFail("Error should be AFError.responseSerializationFailed(.dataPreprocessingFailed), got: \(String(describing: result.failure))")
+        }
     }
 
     func testThatDecodableResponseSerializerProperlyCallsSuccessfulDataPreprocessor() {
@@ -1342,6 +1370,13 @@ final class DataPreprocessorSerializationTests: BaseTestCase {
         XCTAssertTrue(result.isFailure)
         XCTAssertNil(result.success)
         XCTAssertNotNil(result.failure)
+        XCTAssertTrue(result.failure?.asAFError?.isResponseSerializationError == true)
+        if case .responseSerializationFailed(let reason) = result.failure?.asAFError,
+           case .dataPreprocessingFailed = reason {
+            // Expected
+        } else {
+            XCTFail("Error should be AFError.responseSerializationFailed(.dataPreprocessingFailed), got: \(String(describing: result.failure))")
+        }
     }
 }
 

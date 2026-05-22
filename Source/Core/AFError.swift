@@ -131,6 +131,8 @@ public enum AFError: Error, Sendable {
         case customSerializationFailed(error: any Error)
         /// Generic serialization failed for an empty response that wasn't type `Empty` but instead the associated type.
         case invalidEmptyResponse(type: String)
+        /// A `DataPreprocessor` failed to preprocess the response data due to the associated `Error`.
+        case dataPreprocessingFailed(error: any Error)
     }
 
     #if canImport(Security)
@@ -593,6 +595,7 @@ extension AFError.ResponseSerializationFailureReason {
              .jsonSerializationFailed(_),
              .decodingFailed(_),
              .customSerializationFailed(_),
+             .dataPreprocessingFailed(_),
              .invalidEmptyResponse:
             nil
         }
@@ -602,7 +605,8 @@ extension AFError.ResponseSerializationFailureReason {
         switch self {
         case let .jsonSerializationFailed(error),
              let .decodingFailed(error),
-             let .customSerializationFailed(error):
+             let .customSerializationFailed(error),
+             let .dataPreprocessingFailed(error):
             error
         case .inputDataNilOrZeroLength,
              .inputFileNil,
@@ -797,6 +801,8 @@ extension AFError.ResponseSerializationFailureReason {
             "Response could not be decoded because of error:\n\(error.localizedDescription)"
         case let .customSerializationFailed(error):
             "Custom response serializer failed with error:\n\(error.localizedDescription)"
+        case let .dataPreprocessingFailed(error):
+            "Data preprocessing failed with error:\n\(error.localizedDescription)"
         }
     }
 }

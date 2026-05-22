@@ -237,7 +237,11 @@ public final class DataResponseSerializer: ResponseSerializer {
             return Data()
         }
 
-        data = try dataPreprocessor.preprocess(data)
+        do {
+            data = try dataPreprocessor.preprocess(data)
+        } catch {
+            throw AFError.responseSerializationFailed(reason: .dataPreprocessingFailed(error: error))
+        }
 
         return data
     }
@@ -305,7 +309,11 @@ public final class StringResponseSerializer: ResponseSerializer {
             return ""
         }
 
-        data = try dataPreprocessor.preprocess(data)
+        do {
+            data = try dataPreprocessor.preprocess(data)
+        } catch {
+            throw AFError.responseSerializationFailed(reason: .dataPreprocessingFailed(error: error))
+        }
 
         var convertedEncoding = encoding
 
@@ -392,7 +400,11 @@ public final class JSONResponseSerializer: ResponseSerializer {
             return NSNull()
         }
 
-        data = try dataPreprocessor.preprocess(data)
+        do {
+            data = try dataPreprocessor.preprocess(data)
+        } catch {
+            throw AFError.responseSerializationFailed(reason: .dataPreprocessingFailed(error: error))
+        }
 
         do {
             return try JSONSerialization.jsonObject(with: data, options: options)
@@ -498,7 +510,11 @@ public final class DecodableResponseSerializer<T: Decodable>: ResponseSerializer
             return emptyValue
         }
 
-        data = try dataPreprocessor.preprocess(data)
+        do {
+            data = try dataPreprocessor.preprocess(data)
+        } catch {
+            throw AFError.responseSerializationFailed(reason: .dataPreprocessingFailed(error: error))
+        }
 
         do {
             return try decoder.decode(T.self, from: data)

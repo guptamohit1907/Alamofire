@@ -545,7 +545,12 @@ public struct DecodableStreamSerializer<T: Decodable>: DataStreamSerializer wher
     }
 
     public func serialize(_ data: Data) throws -> T {
-        let processedData = try dataPreprocessor.preprocess(data)
+        let processedData: Data
+        do {
+            processedData = try dataPreprocessor.preprocess(data)
+        } catch {
+            throw AFError.responseSerializationFailed(reason: .dataPreprocessingFailed(error: error))
+        }
         do {
             return try decoder.decode(T.self, from: processedData)
         } catch {
